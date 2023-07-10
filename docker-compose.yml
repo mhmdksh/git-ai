@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  bridge-ai:
+    image: eddsnx3/bridge-ai
+    container_name: bridge-ai
+    networks:
+      - bridge-ai
+    volumes:
+      - ./data:/usr/src/app/data
+networks:
+    bridge-ai:
