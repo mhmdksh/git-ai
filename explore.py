@@ -1,5 +1,6 @@
+# explore.py
+
 import os
-import sys
 from dotenv import load_dotenv
 
 import openai
@@ -21,11 +22,6 @@ os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
 # Enable to save to disk & reuse the model (for repeated queries on the same data)
 PERSIST = False
 
-# Get the question from the command line arguments
-query = None
-if len(sys.argv) > 1:
-  query = sys.argv[1]
-
 if PERSIST and os.path.exists("persist"):
   print("Reusing index...\n")
   vectorstore = Chroma(persist_directory="persist", embedding_function=OpenAIEmbeddings())
@@ -43,14 +39,12 @@ chain = ConversationalRetrievalChain.from_llm(
 )
 
 chat_history = []
-while True:
-  if not query:
-    query = input("Prompt: ")
-  if query in ['quit', 'q', 'exit']:
-    sys.exit()
+
+def ask_question(query):
   result = chain({"question": query, "chat_history": chat_history})
-  print(result['answer'])
+  answer = result['answer']
 
   chat_history.append((query, result['answer']))
-  query = None
+
+  return answer
 
