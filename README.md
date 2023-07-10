@@ -20,7 +20,11 @@ OPENAI_KEY=your-openai-api-key
 DISCORD_BOT_TOKEN=your-discord-bot-token
 ```
 ## Install
-Install using this command
+Install dependencies using this command
 ```
-npm install dotenv
+pip install -r requirements.txt
+```
+## Start
+```
+python explorer.py "What is the name of my dog?"
 ```
