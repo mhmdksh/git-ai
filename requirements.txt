@@ -6,3 +6,4 @@ unstructured==0.7.10
 wrapt==1.15
 python-dotenv==1.0.0
 discord
+gh2md
