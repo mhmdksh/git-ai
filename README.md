@@ -1,5 +1,5 @@
 # git-ai
-
+A personal git helper discord bot for your github repository
 ## Diagram
 
 ```
@@ -9,6 +9,11 @@ User (on Discord) <--> Discord API <--> Chatbot (Discord Bot)
                                        |
                                        --> GitHub Token (for scanning Github repository information)
 ```
+## Prerequisites
+1. Discord Bot Setup and a Discord Token
+2. Access token for your Github Account
+3. OpenAI API Key for OpenAI integration
+4. Python ~ `3.9.7`
 ## Configure
 Configure the .env using the `.env.template` file
 ```
