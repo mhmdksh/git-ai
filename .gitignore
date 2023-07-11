@@ -3,4 +3,4 @@ __pycache__
 persist/
 .DS_Store
 .chroma/
-data/*.md
+data/*

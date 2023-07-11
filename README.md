@@ -3,11 +3,11 @@
 ## Diagram
 
 ```
-User (on Discord) <--> Discord API <--> Chatbot (Rasa or Botpress)
+User (on Discord) <--> Discord API <--> Chatbot (Discord Python)
                                        |
                                        --> OpenAI API (for generating responses and learning from conversations)
                                        |
-                                       --> GitHub API (for scanning code and learning about DevOps tools)
+                                       --> GitHub Token (for scanning Github repository information)
 ```
 ## Configure
 Configure the .env using the `.env.template` file

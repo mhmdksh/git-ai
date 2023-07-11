@@ -4,6 +4,8 @@ import time
 import subprocess
 import threading
 from dotenv import load_dotenv
+from bs4 import BeautifulSoup
+from markdown import markdown
 
 # ... (rest of your imports)
 import openai
@@ -30,9 +32,26 @@ repo_name = os.getenv('REPO_NAME')
 os.environ['GITHUB_ACCESS_TOKEN'] = access_token
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
 
+
+def md_to_text(md):
+    html = markdown(md)
+    soup = BeautifulSoup(html, features='html.parser')
+    return soup.get_text()
+
 def sync_repo():
     while True:
+        # Run the gh2md command and save the output markdown file
         subprocess.run(['gh2md', repo_name, output_file])
+
+        # Open the markdown file and convert it to plain text
+        with open(output_file, 'r') as md_file:
+            md_content = md_file.read()
+            text_content = md_to_text(md_content)
+
+        # Overwrite the markdown file with the plain text content
+        with open(output_file, 'w') as text_file:
+            text_file.write(text_content)
+
         time.sleep(60)  # Wait for 60 seconds before updating again
 
 # Create a new thread for the synchronization process
@@ -40,15 +59,6 @@ sync_thread = threading.Thread(target=sync_repo)
 
 # Start the new thread
 sync_thread.start()
-
-#loader = DirectoryLoader('data/', glob="**/*.md", loader_cls=TextLoader)
-#print(f"Loader created with file: {output_file}")
-#index = VectorstoreIndexCreator().from_loaders([loader])
-## Create a ConversationalRetrievalChain object
-#chain = ConversationalRetrievalChain.from_llm(
-#  llm=ChatOpenAI(model="gpt-3.5-turbo"),
-#  retriever=index.vectorstore.as_retriever(search_kwargs={"k": 1}),
-#)
 
 # Enable to save to disk & reuse the model (for repeated queries on the same data)
 PERSIST = False
@@ -58,14 +68,12 @@ if PERSIST and os.path.exists("persist"):
   vectorstore = Chroma(persist_directory="persist", embedding_function=OpenAIEmbeddings())
   index = VectorStoreIndexWrapper(vectorstore=vectorstore)
 else:
-  loader = DirectoryLoader('data/', glob="**/*.md", loader_cls=TextLoader)
-  print(f"Loader created with file: {output_file}")
+  loader = DirectoryLoader('data/')
   if PERSIST:
     index = VectorstoreIndexCreator(vectorstore_kwargs={"persist_directory":"persist"}).from_loaders([loader])
   else:
     index = VectorstoreIndexCreator().from_loaders([loader])
 
-# Create a ConversationalRetrievalChain object
 chain = ConversationalRetrievalChain.from_llm(
   llm=ChatOpenAI(model="gpt-3.5-turbo"),
   retriever=index.vectorstore.as_retriever(search_kwargs={"k": 1}),
