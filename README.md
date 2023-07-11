@@ -1,5 +1,9 @@
 # git-ai
 A personal git helper discord bot for your github repository
+## Problem?
+Back and forth github links about issues and pull requests between team memebers. Results in too many links in discord, things can get lost easily, and a lot of time can be wasted
+## Solution
+A build in discord bot that guides the chat participants on specific issues, pull requests and comments on the specific git repositories that they are working on
 ## Diagram
 
 ```
