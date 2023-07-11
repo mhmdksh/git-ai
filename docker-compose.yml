@@ -1,12 +1,14 @@
 version: '3.8'
 
 services:
-  bridge-ai:
-    image: eddsnx3/bridge-ai
-    container_name: bridge-ai
+  git-ai:
+    build: 
+      context: .
+    container_name: git-ai
     networks:
-      - bridge-ai
+      - git-ai
     volumes:
       - ./data:/usr/src/app/data
 networks:
-    bridge-ai:
+    git-ai:
+
