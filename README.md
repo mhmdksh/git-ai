@@ -27,7 +27,7 @@ REPO_NAME=repo-owner/repo-name
 ```
 pip install -r requirements.txt
 ```
-### Add Text data in the `data` folder
+### (Optional) Add Your own Text data in the `data` folder
 
 ## Start
 ```
